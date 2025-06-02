@@ -1,0 +1,25 @@
+{
+  "countries": [
+    "Argentina",
+    "Brasil",
+    "Chile",
+    "Colombia",
+    "Costa Rica",
+    "Ecuador",
+    "México",
+    "Perú"
+  ],
+  "devices": [
+    "Samsung",
+    "LG",
+    "Hisense",
+    "Sony",
+    "Panasonic",
+    "TCL",
+    "Philips",
+    "Sharp",
+    "Xiaomi",
+    "Otros",
+    "Yisus"
+  ]
+}
