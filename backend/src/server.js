@@ -20,7 +20,7 @@ import metadataRoutes from './routes/metadata.js';
 import catalogRoutes from './routes/catalog.js';
 
 const app = express();
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3013;
 
 // Middleware
 app.use(cors());

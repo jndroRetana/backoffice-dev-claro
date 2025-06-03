@@ -12,6 +12,10 @@ RUN npm ci
 # Copiar el código fuente
 COPY . .
 
+# Argumentos de construcción para inyectar variables de entorno
+ARG VITE_API_URL
+ENV VITE_API_URL=${VITE_API_URL}
+
 # Construir la aplicación para producción
 RUN npm run build
 
