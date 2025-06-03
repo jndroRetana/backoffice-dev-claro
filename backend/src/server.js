@@ -22,8 +22,14 @@ import catalogRoutes from './routes/catalog.js';
 const app = express();
 const PORT = process.env.PORT || 3013;
 
+// Configuración de CORS para permitir cualquier origen
+const corsOptions = {
+  origin: '*', // Permitir cualquier origen
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Permitir todos los métodos
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(morgan('dev'));
 app.use(express.json());
 
@@ -47,8 +53,8 @@ app.use((err, req, res, next) => {
 });
 
 // Iniciar servidor
-app.listen(PORT, () => {
-  console.log(`Servidor iniciado en http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Servidor iniciado en http://0.0.0.0:${PORT}`);
 });
 
 export default app;
