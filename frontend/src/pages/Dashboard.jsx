@@ -10,12 +10,17 @@ import {
   List,
   ListItem,
   ListItemText,
-  Skeleton
+  Skeleton, Button, IconButton
 } from '@mui/material';
 import { metadataService } from '../services/api';
+import { mockApi } from '../services/mockApi';
 import StorageIcon from '@mui/icons-material/Storage';
 import PublicIcon from '@mui/icons-material/Public';
 import DevicesIcon from '@mui/icons-material/Devices';
+import ApiIcon from '@mui/icons-material/Api';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { Link as RouterLink } from 'react-router-dom';
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -24,7 +29,10 @@ const Dashboard = () => {
     devices: [],
     recentEntries: []
   });
+  const [mocks, setMocks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [mocksLoading, setMocksLoading] = useState(true);
+  const [copySuccess, setCopySuccess] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,8 +63,32 @@ const Dashboard = () => {
       }
     };
     
+    // Cargar los mocks API
+    const fetchMocks = async () => {
+      try {
+        setMocksLoading(true);
+        const mocksList = await mockApi.getMocks();
+        setMocks(mocksList);
+      } catch (error) {
+        console.error('Error al cargar mocks:', error);
+      } finally {
+        setMocksLoading(false);
+      }
+    };
+    
     fetchData();
+    fetchMocks();
   }, []);
+  
+  // Función para copiar URL al portapapeles
+  const copyToClipboard = (url) => {
+    navigator.clipboard.writeText(url)
+      .then(() => {
+        setCopySuccess(true);
+        setTimeout(() => setCopySuccess(false), 2000);
+      })
+      .catch(err => console.error('Error al copiar URL:', err));
+  };
 
   const StatCard = ({ icon, title, value, isLoading }) => (
     <Card elevation={3}>
@@ -171,7 +203,67 @@ const Dashboard = () => {
         </Grid>
       </Grid>
       
-      {/* Tercera fila: Llaves recientes (ancho completo) */}
+      {/* Tercera fila: Mocks API - Lista simple */}
+      <Grid container spacing={3} sx={{ mb: 3 }}>
+        <Grid item xs={12}>  
+          <Paper elevation={3} sx={{ p: 2 }}>
+            <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
+              <Typography variant="h6" gutterBottom sx={{ mb: 0 }}>
+                Mocks API Disponibles
+              </Typography>
+              <Button 
+                component={RouterLink} 
+                to="/mocks" 
+                variant="contained" 
+                size="small" 
+                startIcon={<ApiIcon />}
+                sx={{ minWidth: '140px' }}
+              >
+                Gestionar Mocks
+              </Button>
+            </Box>
+            <Divider sx={{ mb: 2 }} />
+            
+            {mocksLoading ? (
+              Array(3).fill().map((_, i) => (
+                <Skeleton key={i} height={40} sx={{ my: 1 }} />
+              ))
+            ) : mocks.length === 0 ? (
+              <Typography color="textSecondary" align="center" py={2}>
+                No hay mocks API creados
+              </Typography>
+            ) : (
+              <List dense sx={{ maxHeight: '300px', overflow: 'auto' }}>
+                {mocks.map((mock) => {
+                  const creationDate = mock.createdAt 
+                    ? new Date(mock.createdAt).toLocaleDateString() + ' ' + new Date(mock.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) 
+                    : 'Fecha no disponible';
+                  
+                  return (
+                    <ListItem key={mock.mockId} divider>
+                      <ListItemText
+                        primary={mock.name}
+                        secondary={
+                          <>
+                            <Typography component="span" variant="body2" color="text.primary" display="block">
+                              {mockApi.getMockUrl(mock.mockId)}
+                            </Typography>
+                            <Typography component="span" variant="caption" color="text.secondary">
+                              Creado: {creationDate}
+                            </Typography>
+                          </>
+                        }
+                      />
+                    </ListItem>
+                  );
+                })}
+              </List>
+            )}
+          </Paper>
+        </Grid>
+      </Grid>
+      
+      {/* Cuarta fila: Llaves recientes (ancho completo) */}
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Paper elevation={3} sx={{ p: 2 }}>

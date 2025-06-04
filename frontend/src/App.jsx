@@ -4,6 +4,7 @@ import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import MetadataPage from './pages/MetadataPage';
 import CatalogManagement from './pages/CatalogManagement';
+import MocksManagement from './pages/MocksManagement';
 
 // Crear tema personalizado
 const theme = createTheme({
@@ -53,6 +54,7 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="metadata" element={<MetadataPage />} />
             <Route path="catalogs" element={<CatalogManagement />} />
+            <Route path="mocks" element={<MocksManagement />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>

@@ -18,6 +18,7 @@ if (!fs.existsSync(dataDir)) {
 // Rutas
 import metadataRoutes from './routes/metadata.js';
 import catalogRoutes from './routes/catalog.js';
+import mockRoutes from './routes/mock.js';
 
 const app = express();
 const PORT = process.env.PORT || 3013;
@@ -36,6 +37,7 @@ app.use(express.json());
 // Rutas API
 app.use('/api/metadata', metadataRoutes);
 app.use('/api/catalog', catalogRoutes);
+app.use('/api/mock', mockRoutes);
 
 // Ruta de verificación de estado
 app.get('/health', (req, res) => {

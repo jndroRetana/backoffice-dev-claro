@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Obtener la URL de la API desde la variable de entorno o usar un valor por defecto
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3002/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3013/api';
 
 const api = axios.create({
   baseURL: API_URL,

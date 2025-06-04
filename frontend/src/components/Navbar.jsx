@@ -21,6 +21,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import KeyIcon from '@mui/icons-material/Key';
 import CloseIcon from '@mui/icons-material/Close';
 import CategoryIcon from '@mui/icons-material/Category';
+import ApiIcon from '@mui/icons-material/Api';
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -36,6 +37,7 @@ const Navbar = () => {
     { text: 'Dashboard', path: '/', icon: <DashboardIcon /> },
     { text: 'Llaves', path: '/metadata', icon: <KeyIcon /> },
     { text: 'Catálogos', path: '/catalogs', icon: <CategoryIcon /> },
+    { text: 'Mocks API', path: '/mocks', icon: <ApiIcon /> },
   ];
 
   const drawer = (
